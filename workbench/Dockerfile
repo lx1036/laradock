@@ -112,7 +112,7 @@ RUN groupadd -g ${PGID} lx1036 && \
 # Set Timezone
 #####################################
 
-ARG TZ=UTC
+ARG TZ=Asia/Chongqing
 ENV TZ ${TZ}
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
