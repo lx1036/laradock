@@ -21,11 +21,11 @@ MAINTAINER Sunny Liu <xiang.liu@rightcapital.com>
 #####################################
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
-
 #--------------------------------------------------------------------------
 # Final Touch
 #--------------------------------------------------------------------------
-
+COPY ./conf.d/ /usr/local/etc/php/conf.d/
+COPY ./php-fpm.d /usr/local/etc/php-fpm.d/
 ADD ./laravel.ini /usr/local/etc/php/conf.d
 ADD ./xlaravel.pool.conf /usr/local/etc/php-fpm.d/
 

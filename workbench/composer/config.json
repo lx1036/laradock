@@ -1,0 +1,15 @@
+{
+  "config": {
+	  "secure-http": true
+	},
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://toran.rightcapital.com/repo/private/"
+    },
+    {
+	    "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+  	}
+  ]
+}
