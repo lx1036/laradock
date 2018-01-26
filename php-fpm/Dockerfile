@@ -12,42 +12,9 @@
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-FROM ubuntu:xenial
+FROM php:7.1-fpm
 
 MAINTAINER Sunny Liu <xiang.liu@rightcapital.com>
-
-#
-#--------------------------------------------------------------------------
-# Software's Installation
-#--------------------------------------------------------------------------
-#
-# Installing tools and PHP extentions using "apt", "docker-php", "pecl",
-#
-
-RUN set -xe \
-    && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list \
-    && echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list \
-    && apt-get update && apt-get install -y --allow-unauthenticated \
-        php7.2-cli \
-        php7.2-fpm \
-        php7.2-mysql \
-        php7.2-curl \
-        php7.2-zip \
-        php7.2-mbstring \
-        php7.2-xml \
-        php7.2-gd \
-        php7.2-geoip \
-        php7.2-soap \
-        php7.2-yaml \
-        php7.2-redis \
-        php7.2-imagick \
-        php7.2-opcache \
-        --no-install-recommends \
-        --no-install-suggests
-
-
-#&& rm -rf /var/lib/apt/lists/*
-
 
 #####################################
 # Opcache:
