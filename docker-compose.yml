@@ -11,7 +11,7 @@ services:
 
     workspace:
       build:
-        context: ./workspace
+        context: ./workbench
         args:
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
@@ -684,19 +684,6 @@ services:
       depends_on:
         - workspace
       tty: true
-
-### Portainer (https://portainer.readthedocs.io/en/latest/deployment.html) #######################################
-    portainer:
-      build:
-        context: ./portainer
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - /var/lib/docker/volumes/portainer_data:/data
-      ports:
-        - "${PORTAINER_PORT}:9000"
-      networks:
-        - frontend
-        - backend
 
 ### Networks Setup (https://docs.docker.com/compose/networking/#specify-custom-networks) ############################################
 

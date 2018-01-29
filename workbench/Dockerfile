@@ -156,7 +156,7 @@ RUN echo "" >> ~/.bashrc && \
 #####################################
 # xDebug:
 #####################################
-ARG INSTALL_XDEBUG=true
+ARG INSTALL_XDEBUG=false
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
     apt-get update && \

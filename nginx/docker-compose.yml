@@ -1,0 +1,9 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: .
+      args:
+        - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+        - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+    image: lx1036/nginx

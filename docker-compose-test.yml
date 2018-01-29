@@ -1,0 +1,104 @@
+version: "3"
+services:
+  ### Gitlab Container #######################################
+  gitlab-ee:
+    container_name: lx1036-gitlab
+    image: "gitlab/gitlab-ee:latest"
+    restart: always
+    hostname: "lx1036.gitlab.com"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url "http://lx1036.gitlab.com"
+    ports:
+      - "80:80"
+      - "22:22"
+    volumes:
+      - "${DATA_SAVE_PATH}/gitlab/config:/etc/gitlab"
+      - "${DATA_SAVE_PATH}/gitlab/logs:/var/log/gitlab"
+      - "${DATA_SAVE_PATH}/gitlab/data:/var/opt/gitlab"
+    networks:
+      - backend
+
+  gitlab-runner:
+    container_name: lx1036-gitlab-runner
+    image: "gitlab/gitlab-runner:latest"
+    restart: always
+    volumes:
+      - "${DATA_SAVE_PATH}/gitlab-runner/config:/etc/gitlab-runner"
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - gitlab-ee
+    networks:
+      - backend
+  ### PHP-FPM Container #######################################
+  php-fpm:
+    container_name: lx1036-php-fpm
+    image: "lx1036/php-fpm:latest"
+    volumes:
+      - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+      - ${API_REPO_PATH}:/var/www/api
+      - ${ADMIN_API_REPO_PATH}:/var/www/admin/api
+      - ${ADMIN_WEB_REPO_PATH}:/var/www/admin/web
+    expose:
+      - "9000"
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    environment:
+      - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+    networks:
+      - backend
+
+### NGINX Server Container ##################################
+  nginx:
+    container_name: lx1036-nginx
+    image: "lx1036/nginx:latest"
+    volumes:
+      - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+      - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+      - ${API_REPO_PATH}:/var/www/api
+      - ${ADMIN_API_REPO_PATH}:/var/www/admin/api
+      - ${ADMIN_WEB_REPO_PATH}:/var/www/admin/web
+    ports:
+      - "${NGINX_HOST_HTTP_PORT}:80"
+      - "${NGINX_GITLAB_PORT}:84"
+      - "${NGINX_HOST_HTTPS_PORT}:443"
+    depends_on:
+      - php-fpm
+    networks:
+      - frontend
+      - backend
+
+### MySQL Container #########################################
+  mysql:
+    container_name: lx1036-mysql
+    image: "lx1036/mysql:latest"
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=${WORKSPACE_TIMEZONE}
+    volumes:
+      - ${DATA_SAVE_PATH}/mysql:/var/lib/mysql
+      - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+    ports:
+      - "${MYSQL_PORT}:3306"
+    networks:
+      - backend
+
+### Redis Container #########################################
+  redis:
+    container_name: lx1036-redis
+    image: "lx1036/redis:latest"
+    volumes:
+      - ${DATA_SAVE_PATH}/redis:/data
+    ports:
+      - "${REDIS_PORT}:6379"
+    networks:
+      - backend
+
+networks:
+  frontend:
+    driver: "bridge"
+  backend:
+    driver: "bridge"

@@ -1,0 +1,6 @@
+version: '3'
+services:
+  php-fpm:
+    build:
+      context: .
+    image: lx1036/php-fpm

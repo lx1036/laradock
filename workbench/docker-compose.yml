@@ -1,0 +1,6 @@
+version: '3'
+services:
+  workbench:
+    build:
+      context: .
+    image: lx1036-workbench

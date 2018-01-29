@@ -4,6 +4,8 @@
 
 ### RightCapital Repo Path ###################################################################################################
 API_REPO_PATH=
+ADMIN_API_REPO_PATH=
+ADMIN_WEB_REPO_PATH=
 
 ### Application Path ###################################################################################################
 # Point to your code, will be available at `/var/www`.
@@ -23,7 +25,7 @@ PHP_INTERPRETER=php-fpm
 ### Data Path ##########################################################################################################
 # Choose storage path on your machine. For all storage systems.
 
-DATA_SAVE_PATH=~/.laradock/data
+DATA_SAVE_PATH=~/.lx1036/data
 
 ### Docker compose files ###############################################################################################
 # Select which docker-compose files to include.
@@ -58,6 +60,11 @@ CHANGE_SOURCE=false
 ###########################################################
 # Containers Customization
 ###########################################################
+
+### GITLAB ##########################################################################################################
+GITLAB_HTTP_PORT=
+GITLAB_HTTPS_PORT=
+GITLAB_SSH_PORT=
 
 ### WORKSPACE ##########################################################################################################
 
@@ -95,7 +102,7 @@ WORKSPACE_PGID=1000
 WORKSPACE_CHROME_DRIVER_VERSION=2.32
 WORKSPACE_NODE_VERSION=stable
 WORKSPACE_YARN_VERSION=latest
-WORKSPACE_TIMEZONE=UTC
+WORKSPACE_TIMEZONE=Asia/Chongqing
 WORKSPACE_SSH_PORT=2222
 
 ### PHP_FPM ############################################################################################################
